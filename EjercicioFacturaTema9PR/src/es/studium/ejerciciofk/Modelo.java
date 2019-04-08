@@ -132,8 +132,9 @@ public class Modelo {
 			rs = statement.executeQuery(sentencia);
 			System.out.println(sentencia);
 			while (rs.next()){
-				int idFactura = rs.getInt("idFactura");
-				vdfactura.lblNºFactura.setText("Factura Nº" + idFactura+ "");
+				int idFacturaFK = rs.getInt("idFactura");
+				System.out.println(idFacturaFK);
+				vdfactura.lblNºFactura.setText("Factura Nº" + idFacturaFK+ "");
 			}
 		}
 		catch (ClassNotFoundException cnfe)

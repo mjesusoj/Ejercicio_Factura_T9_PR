@@ -31,12 +31,12 @@ public class Controlador implements WindowListener, ActionListener{
 			vafactura.btnCancelar.addActionListener(this);
 		}
 		else if(vafactura.btnSiguiente.equals(arg0.getSource())){
-			Modelo.insertardatosfactura(vafactura);
-			Modelo.insertardetallesfactura(null);
-			
 			vafactura.setVisible(false);
 			vdfactura = new VistaDetallesFactura();
 			vdfactura.addWindowListener(this);
+			
+			Modelo.insertardatosfactura(vafactura);
+			Modelo.insertardetallesfactura(vdfactura);
 		}
 	}
 

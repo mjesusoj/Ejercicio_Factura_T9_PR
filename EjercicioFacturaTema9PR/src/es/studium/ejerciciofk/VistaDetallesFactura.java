@@ -8,7 +8,7 @@ public class VistaDetallesFactura extends Frame{
 
 	private static final long serialVersionUID = 1L;
 
-	Label lblNºFactura = new Label("");
+	Label lblNºFactura = new Label();
 	
 	VistaDetallesFactura()
 	{
