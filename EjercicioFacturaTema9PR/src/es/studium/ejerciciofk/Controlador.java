@@ -34,9 +34,14 @@ public class Controlador implements WindowListener, ActionListener{
 			vafactura.setVisible(false);
 			vdfactura = new VistaDetallesFactura();
 			vdfactura.addWindowListener(this);
+			vdfactura.btnAgregar.addActionListener(this);
 			
 			Modelo.insertardatosfactura(vafactura);
 			Modelo.insertardetallesfactura(vdfactura);
+			Modelo.insertararticulos(vdfactura);
+		}
+		else if(vdfactura.btnAgregar.equals(arg0.getSource())) {
+			Modelo.insertarenlineafacturas(vdfactura);
 		}
 	}
 

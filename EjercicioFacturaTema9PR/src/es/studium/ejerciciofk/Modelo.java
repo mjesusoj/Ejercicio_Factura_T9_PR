@@ -130,12 +130,110 @@ public class Modelo {
 			//Crear una sentencia
 			statement = connection.createStatement();
 			rs = statement.executeQuery(sentencia);
-			System.out.println(sentencia);
 			while (rs.next()){
 				int idFacturaFK = rs.getInt("idFactura");
-				System.out.println(idFacturaFK);
 				vdfactura.lblNºFactura.setText("Factura Nº" + idFacturaFK+ "");
 			}
+		}
+		catch (ClassNotFoundException cnfe)
+		{
+			System.out.println("Error 1: "+cnfe.getMessage());
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("Error 2: "+sqle.getMessage());
+		}
+		finally
+		{
+			try
+			{
+				if(connection!=null)
+				{
+					connection.close();
+				}
+			}
+			catch (SQLException e)
+			{
+				System.out.println("Error 3: "+e.getMessage());
+			}
+		}
+	}
+	
+	public static void insertararticulos(VistaDetallesFactura vdfactura){
+		String driver = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://localhost:3306/ejemplofk?autoReconnect=true&useSSL=false";
+		String login = "root";
+		String password = "Studium2018;";
+		String sentencia = "SELECT idArticulo, descripcionArticulo FROM articulos;";
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet rs = null;
+
+		try
+		{
+			//Cargar los controladores para el acceso a la BD
+			Class.forName(driver);
+			//Establecer la conexión con la BD Empresa
+			connection = DriverManager.getConnection(url, login, password);
+			//Crear una sentencia
+			statement = connection.createStatement();
+			rs = statement.executeQuery(sentencia);
+			// Añadir al choice
+			vdfactura.chcArticulo.add("Elegir uno...");
+			while (rs.next()){
+				int idArticulo = rs.getInt("idArticulo");
+				String descripcionArticulo = rs.getString("descripcionArticulo");
+				
+				vdfactura.chcArticulo.add(idArticulo + " " + "-" + " " + descripcionArticulo);
+			}
+		}
+		catch (ClassNotFoundException cnfe)
+		{
+			System.out.println("Error 1: "+cnfe.getMessage());
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("Error 2: "+sqle.getMessage());
+		}
+		finally
+		{
+			try
+			{
+				if(connection!=null)
+				{
+					connection.close();
+				}
+			}
+			catch (SQLException e)
+			{
+				System.out.println("Error 3: "+e.getMessage());
+			}
+		}
+	}
+	
+	public static void insertarenlineafacturas(VistaDetallesFactura vdfactura){
+		String driver = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://localhost:3306/ejemplofk?autoReconnect=true&useSSL=false";
+		String login = "root";
+		String password = "Studium2018;";
+		String sentencia = null;
+		Connection connection = null;
+		Statement statement = null;
+
+		try
+		{
+			String numerofactura = vdfactura.lblNºFactura.getText().replace("Factura Nº", "");
+			int idFacturaFK = Integer.parseInt(numerofactura);
+			//Cargar los controladores para el acceso a la BD
+			Class.forName(driver);
+			//Establecer la conexión con la BD Empresa
+			connection = DriverManager.getConnection(url, login, password);
+			//Crear una sentencia
+			statement = connection.createStatement();
+			sentencia = "INSERT INTO lineasfactura VALUES(NULL, '"+idFacturaFK+"', '"+vdfactura.chcArticulo.getSelectedItem().substring(0,3).replace("-", "").replace(" ", "")+"','"+vdfactura.txtCantidad.getText()+"');";
+			System.out.println(sentencia);
+			statement.executeUpdate(sentencia);
+			
 		}
 		catch (ClassNotFoundException cnfe)
 		{
