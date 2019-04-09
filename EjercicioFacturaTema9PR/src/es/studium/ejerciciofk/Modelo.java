@@ -233,8 +233,8 @@ public class Modelo {
 			sentencia = "INSERT INTO lineasfactura VALUES(NULL, '"+idFacturaFK+"', '"+vdfactura.chcArticulo.getSelectedItem().substring(0,3).replace("-", "").replace(" ", "")+"','"+vdfactura.txtCantidad.getText()+"');";
 			System.out.println(sentencia);
 			statement.executeUpdate(sentencia);
-			
 		}
+		
 		catch (ClassNotFoundException cnfe)
 		{
 			System.out.println("Error 1: "+cnfe.getMessage());
@@ -257,6 +257,70 @@ public class Modelo {
 				System.out.println("Error 3: "+e.getMessage());
 			}
 		}
+	}
+	
+	public static void insertarlistadetalles(VistaDetallesFactura vdfactura){
+		String driver = "com.mysql.jdbc.Driver";
+		String url = "jdbc:mysql://localhost:3306/ejemplofk?autoReconnect=true&useSSL=false";
+		String login = "root";
+		String password = "Studium2018;";
+		String sentencia = "SELECT idArticulo, descripcionArticulo, precioArticulo FROM articulos;";
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet rs = null;
+
+		try
+		{
+			//Cargar los controladores para el acceso a la BD
+			Class.forName(driver);
+			//Establecer la conexión con la BD Empresa
+			connection = DriverManager.getConnection(url, login, password);
+			//Crear una sentencia
+			statement = connection.createStatement();
+			rs = statement.executeQuery(sentencia);
+			System.out.println(sentencia);
+			while (rs.next()){
+				int idArticulo = rs.getInt("idArticulo");
+				String descripcionArticulo = rs.getString("descripcionArticulo");
+				String cantidadArticulo = vdfactura.txtCantidad.getText();
+				Float precioArticulo = rs.getFloat("precioArticulo");
+				
+				// Insertar datos
+				vdfactura.txtLista.setText("idArtículo"+" "+"Descripción"+" "+" "+" "+" "+"Cantidad"+" "+"Precio"+" "+" "+"Subtotal" 
+				+"\n" + "\n" + idArticulo +" "+" "+" "+ descripcionArticulo +" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+cantidadArticulo +" "+ precioArticulo +" "+" "+ calcularSubTotal(cantidadArticulo, precioArticulo));
+			}
+		}
+		
+		
+		catch (ClassNotFoundException cnfe)
+		{
+			System.out.println("Error 1: "+cnfe.getMessage());
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("Error 2: "+sqle.getMessage());
+		}
+		finally
+		{
+			try
+			{
+				if(connection!=null)
+				{
+					connection.close();
+				}
+			}
+			catch (SQLException e)
+			{
+				System.out.println("Error 3: "+e.getMessage());
+			}
+		}
+	}
+	
+	public static float calcularSubTotal(String cantidadPrecio, float precioArticulo) {
+		int cantidadArticulo = Integer.parseInt(cantidadPrecio);
+		
+		float subTotal = cantidadArticulo * precioArticulo;
+		return subTotal;
 	}
 	
 	public static String fechasistema(){

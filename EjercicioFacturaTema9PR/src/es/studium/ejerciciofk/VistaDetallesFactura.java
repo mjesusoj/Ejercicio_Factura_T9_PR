@@ -5,6 +5,7 @@ import java.awt.Choice;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Label;
+import java.awt.TextArea;
 import java.awt.TextField;
 
 import javax.swing.JPanel;
@@ -18,8 +19,9 @@ public class VistaDetallesFactura extends Frame{
 
 	Label lblNºFactura = new Label();
 	
-	JPanel pnlSuperior = new JPanel();
-	JPanel pnlFieldSet = new JPanel();
+	JPanel pnlNumFactura = new JPanel();
+	JPanel pnlFieldSetDetalles = new JPanel();
+	JPanel pnlFieldSetLista = new JPanel();
 	
 	// Componentes for fieldset Detalles
 	Label lblArticulo = new Label("Artículo:");
@@ -28,20 +30,38 @@ public class VistaDetallesFactura extends Frame{
 	TextField txtCantidad = new TextField(13);
 	Button btnAgregar = new Button("Agregar");
 	
+	// Componentes for fieldset lista
+	TextArea txtLista = new TextArea();
+	Label lblTotal = new Label("Total:");
+	TextField txtTotal = new TextField();
+	Button btnAceptar = new Button("Aceptar");
+	Button btnCancelar = new Button("Cancelar");
+	
 	VistaDetallesFactura()
 	{
 		setTitle("Detalles Factura");
-		//setLayout(new FlowLayout());
-		pnlSuperior.add(lblNºFactura);
-		pnlFieldSet.add(lblArticulo);
-		pnlFieldSet.add(chcArticulo);
-		pnlFieldSet.add(lblCantidad);
-		pnlFieldSet.add(txtCantidad);
-		pnlFieldSet.add(btnAgregar);
-		add(pnlSuperior, "North");
-		add(pnlFieldSet, FlowLayout.CENTER);
-		Border bordejpanel = new TitledBorder(new EtchedBorder(), "Detalles");
-		pnlFieldSet.setBorder(bordejpanel); 
+		// Componentes Num Factura
+		pnlNumFactura.add(lblNºFactura);
+		// Añadir componentes detalles
+		pnlFieldSetDetalles.add(lblArticulo);
+		pnlFieldSetDetalles.add(chcArticulo);
+		pnlFieldSetDetalles.add(lblCantidad);
+		pnlFieldSetDetalles.add(txtCantidad);
+		pnlFieldSetDetalles.add(btnAgregar);
+		// Componentes Lista
+		pnlFieldSetLista.add(txtLista);
+		pnlFieldSetLista.add(lblTotal);
+		pnlFieldSetLista.add(txtTotal);
+		pnlFieldSetLista.add(btnAceptar);
+		pnlFieldSetLista.add(btnCancelar);
+		
+		add(pnlNumFactura, "North");
+		add(pnlFieldSetDetalles, FlowLayout.CENTER);
+		add(pnlFieldSetLista, "South");
+		
+		// Borde para el panel de los detalles
+		Border bordepnlDetalles = new TitledBorder(new EtchedBorder(), "Detalles");
+		pnlFieldSetDetalles.setBorder(bordepnlDetalles); 
 		setSize(300,150);
 		setLocationRelativeTo(null);
 		setVisible(true);
