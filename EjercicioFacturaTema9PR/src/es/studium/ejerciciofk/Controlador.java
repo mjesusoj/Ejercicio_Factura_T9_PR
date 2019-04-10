@@ -43,6 +43,17 @@ public class Controlador implements WindowListener, ActionListener{
 		else if(vdfactura.btnAgregar.equals(arg0.getSource())) {
 			Modelo.insertarenlineafacturas(vdfactura);
 			Modelo.insertarlistadetalles(vdfactura);
+			
+			vdfactura.btnAceptar.addActionListener(this);
+			vdfactura.btnCancelar.addActionListener(this);
+		}
+		else if(vdfactura.btnAceptar.equals(arg0.getSource())) {
+			vdfactura.setVisible(false);
+			vafactura.setVisible(true);
+		}
+		else if(vdfactura.btnCancelar.equals(arg0.getSource())) {
+			vdfactura.setVisible(false);
+			vafactura.setVisible(true);
 		}
 	}
 

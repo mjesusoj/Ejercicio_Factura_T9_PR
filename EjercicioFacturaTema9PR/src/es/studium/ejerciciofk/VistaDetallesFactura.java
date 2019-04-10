@@ -31,7 +31,7 @@ public class VistaDetallesFactura extends Frame{
 	Button btnAgregar = new Button("Agregar");
 	
 	// Componentes for fieldset lista
-	TextArea txtLista = new TextArea();
+	TextArea txtLista = new TextArea("idArtículo"+" "+"Descripción"+" "+" "+" "+" "+" "+" "+" "+" "+"Cantidad"+" "+"Precio"+" "+" "+"Subtotal" );
 	Label lblTotal = new Label("Total:");
 	TextField txtTotal = new TextField();
 	Button btnAceptar = new Button("Aceptar");

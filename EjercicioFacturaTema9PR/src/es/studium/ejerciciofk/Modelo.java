@@ -9,6 +9,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Modelo {
+	
+	static float total = 0;
+	
 	public static void cargarClienteBD(VistaAltaFactura vaf){
 		String driver = "com.mysql.jdbc.Driver";
 		String url = "jdbc:mysql://localhost:3306/ejemplofk?autoReconnect=true&useSSL=false";
@@ -18,7 +21,7 @@ public class Modelo {
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet rs = null;
-
+		
 		try
 		{
 			//Cargar los controladores para el acceso a la BD
@@ -268,7 +271,7 @@ public class Modelo {
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet rs = null;
-
+		
 		try
 		{
 			//Cargar los controladores para el acceso a la BD
@@ -278,19 +281,23 @@ public class Modelo {
 			//Crear una sentencia
 			statement = connection.createStatement();
 			rs = statement.executeQuery(sentencia);
+			rs.next();
+			
 			System.out.println(sentencia);
-			while (rs.next()){
-				int idArticulo = rs.getInt("idArticulo");
-				String descripcionArticulo = rs.getString("descripcionArticulo");
-				String cantidadArticulo = vdfactura.txtCantidad.getText();
-				Float precioArticulo = rs.getFloat("precioArticulo");
-				
-				// Insertar datos
-				vdfactura.txtLista.setText("idArtículo"+" "+"Descripción"+" "+" "+" "+" "+"Cantidad"+" "+"Precio"+" "+" "+"Subtotal" 
-				+"\n" + "\n" + idArticulo +" "+" "+" "+ descripcionArticulo +" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+cantidadArticulo +" "+ precioArticulo +" "+" "+ calcularSubTotal(cantidadArticulo, precioArticulo));
-			}
+			String[] escoger = vdfactura.chcArticulo.getSelectedItem().split(" "+"-"+" ");
+			int idArticulo = Integer.parseInt(escoger[0]);
+			String descripcionArticulo = escoger[1];
+			
+			String cantidadArticulo = vdfactura.txtCantidad.getText();
+			Float precioArticulo = rs.getFloat("precioArticulo");
+			Float subtotal = calcularSubTotal(cantidadArticulo, precioArticulo);
+			// Insertar datos
+			vdfactura.txtLista.append("\n" + idArticulo +" "+" "+" "+ descripcionArticulo +" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+" "+cantidadArticulo +" "+ precioArticulo +" "+" "+ subtotal);
+
+			
+			total = calcularTotal(subtotal, total);
+			vdfactura.txtTotal.setText(total+"");
 		}
-		
 		
 		catch (ClassNotFoundException cnfe)
 		{
@@ -321,6 +328,12 @@ public class Modelo {
 		
 		float subTotal = cantidadArticulo * precioArticulo;
 		return subTotal;
+	}
+	
+	public static float calcularTotal(float subTotal, float totalAnterior) {
+		float totalActual = totalAnterior;
+		totalActual = subTotal + totalActual;
+		return totalActual;
 	}
 	
 	public static String fechasistema(){
